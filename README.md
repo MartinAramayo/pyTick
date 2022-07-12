@@ -1,11 +1,11 @@
-# pyTick: A WIP cli tickspot api wrapper
+# pyTick: A WIP CLI Tickspot API wrapper
 
 pyTick allows you to load entries to the tickspot platform
 
 ## Usage
 
 ~~~ bash
-pyTick, A WIP cli tickspot api wrapper.
+pyTick, A WIP CLI Tickspot API wrapper.
 
 Usage:
     pytick.py --tasks 
