@@ -64,9 +64,9 @@ CSV files upload was tested ONLY on the script main directory, so paste them the
 
 ## ToDOs:
 
-- [] Define contribution guide
-- [] Feature to search entries by date, project id, task id...
-- [] Find a more secure way to handle credentials
-- [] Delete entries by their id
-- [] Make it POSIX compliant
-- [] Toggle http/https?
+- [ ] Define contribution guide
+- [ ] Feature to search entries by date, project id, task id...
+- [ ] Find a more secure way to handle credentials
+- [ ] Delete entries by their id
+- [ ] Make it POSIX compliant
+- [ ] Toggle http/https?
