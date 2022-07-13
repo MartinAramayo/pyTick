@@ -16,6 +16,9 @@ Optional:
     --date=<string>   Entry date.
 
 Options:
+    --tasks       Save task_id, task_name, project_name, client_name into 
+                  tasks.csv and prints it
+    --projects    Save project_id, project_name into projects.csv and prints it
     -h --help     Show this screen.
     --version     Show version.
 """
@@ -83,11 +86,15 @@ def main():
 
     if args['--tasks']:
         tickspot_data = calculate_tickspot(api_url, get_heads)
-        print(tickspot_tasks(tickspot_data).to_string(index=False))
+        tasks_df = tickspot_tasks(tickspot_data)
+        print(tasks_df.to_string(index=False))
+        tasks_df.to_csv('tasks.csv', index=False)
         return
 
     if args['--projects']:
-        print(tickspot_projects(api_url, get_heads).to_string(index=False))
+        projects_df = tickspot_projects(api_url, get_heads)
+        print(projects_df.to_string(index=False))
+        projects_df.to_csv('projects.csv', index=False)
         return
 
 
