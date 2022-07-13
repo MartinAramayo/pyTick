@@ -176,18 +176,25 @@ def calculate_tickspot(api_url, get_heads):
     response_projects = requests.get(f"{api_url}projects.json",
                                      headers=get_heads)
     response_tasks = requests.get(f"{api_url}tasks.json", headers=get_heads)
+    response_clients = requests.get(f"{api_url}clients.json", headers=get_heads)
 
     # read data
     projects = response_projects.json()
     tasks = response_tasks.json()
+    clients = response_clients.json()
     projects_df = pd.DataFrame.from_dict(projects).rename(
         columns=rename_projects)
     tasks_df = pd.DataFrame.from_dict(tasks).rename(columns=rename_tasks)
+    clients_df = pd.DataFrame.from_dict(clients).rename(columns=rename_clients)
 
     # merge all into a master table
     tickspot_data = projects_df.merge(tasks_df,
                                       left_on='project_id',
-                                      right_on='project_id')
+                                      right_on='project_id').merge(
+                                          clients_df,
+                                          left_on='client_id',
+                                          right_on='client_id'
+                                      )
     return tickspot_data
 
 
@@ -197,6 +204,7 @@ def tickspot_tasks(tickspot_data):
         'task_id',
         'task_name',
         'project_name',
+        'client_name',
     ]].drop_duplicates()
 
     return tickspot_tasks
