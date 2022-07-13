@@ -165,6 +165,8 @@ def csv(api_url, put_heads, filename):
         data['entry_id'] = aux[index]
 
     string_date = datetime.today().strftime('%Y-%m-%d_%H%M%S')
+    if not os.path.isdir('logs'):
+        os.makedir('logs')
     pd.DataFrame(data_entries).to_csv(f"logs/{string_date}.csv", index=False)
 
 
