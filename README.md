@@ -16,15 +16,16 @@ Usage:
     pytick.py --version
 
 csv:
-    filename    .csv file with the headers: date, hours, notes, task_id
+    filename    .csv file with the headers: date, hours,notes, task_id
 
 Optional:
     --note=<string>   Note of entry.
     --date=<string>   Entry date.
 
 Options:
-    --tasks       Show all available tasks.
-    --projects    Show all available projects.
+    --tasks       Save task_id, task_name, project_name, client_name into 
+                  tasks.csv and prints it
+    --projects    Save project_id, project_name into projects.csv and prints it
     -h --help     Show this screen.
     --version     Show version.
 ~~~

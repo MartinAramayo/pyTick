@@ -1,4 +1,4 @@
-"""pyTick.
+"""pyTick, A WIP CLI Tickspot API wrapper.
 
 Usage:
     pytick.py --tasks 
