@@ -58,6 +58,16 @@ Clone the repository and inside of the directory run:
 python pystick ...
 ~~~
 
+### Dependencies
+
+It requires:
+
+~~~ python
+dotenv
+docopt
+pandas
+~~~
+
 ## Known issues
 
 CSV files upload was tested ONLY on the script main directory, so paste them there to guarantee that it will run.
