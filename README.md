@@ -1,6 +1,8 @@
+<img src="pyTickLogo.png" align="right" />
+
 # pyTick: A WIP CLI Tickspot API wrapper
 
-pyTick allows you to load entries to the tickspot platform
+pyTick allows you to load entries to the Tickspot platform
 
 ## Usage
 
@@ -15,19 +17,26 @@ Usage:
     pytick.py (-h | --help)
     pytick.py --version
 
-csv:
-    filename    .csv file with the headers: date, hours,notes, task_id
+new: 
+    task_id             The id of the tasks you want to load, you can find 
+                        the one you are searching for by calling pyTick 
+                        with --tasks.
+    hours               A float with the amount of hours that the task took 
+                        to complete.
+    -n --note=<string>  A note on the task.
+    -d --date=<string>  The date of the task in the format (YYYY-mm-dd)
+                        [default=today].
 
-Optional:
-    --note=<string>   Note of entry.
-    --date=<string>   Entry date.
+csv:
+    filename            CSV file with the headers: date, hours, notes, task_id.
 
 Options:
-    --tasks       Save task_id, task_name, project_name, client_name into 
-                  tasks.csv and prints it
-    --projects    Save project_id, project_name into projects.csv and prints it
-    -h --help     Show this screen.
-    --version     Show version.
+    -t --tasks         Save task_id, task_name, project_name, client_name into 
+                        tasks.csv and prints it.
+    -p --projects      Save project_id, project_name into projects.csv and 
+                        prints it.
+    -h --help           Show this screen.
+    --version           Show version.
 ~~~
 
 To use it you need to load your credentials into a **.env** inside the script directory:
@@ -43,9 +52,18 @@ subscriptionID=999999
 
 Your token can be get in the settings section of your account along with your subscriptionID. For your userID it is in the url of your account page.
 
+### Examples
+
+Upload 2.5 hours (2 hours and 30 minutes) to the task id 9999999 with the note 
+'Bug crushing' for the 2012-12-11 (11 December 2012).
+
+~~~ bash
+pytick.py new 9999999 2.5 --note='Bug crushing' --date="2012-12-11"
+~~~
+
 ## How does it work
 
-It makes http requests as tick indicates in their [API documentation](https://github.com/tick/tick-api). Tick just sends and receives json. The ones i work here have a strcuture like this: 
+It makes http requests as tick indicates in their [API documentation](https://github.com/tick/tick-api). Tick just sends and receives json. The ones i work here have a structure like this: 
 
 ![](jsonStructure.png)
 
@@ -53,31 +71,13 @@ It makes http requests as tick indicates in their [API documentation](https://gi
 
 ## Installation
 
-Clone the repository and inside of the directory run:
-
-~~~ bash
-python pystick ...
-~~~
-
-### Dependencies
-
-It requires:
+1. Check you have the dependencies:
 
 ~~~ python
-dotenv
-docopt
-pandas
+dotenv 1.3.4
+docopt 0.6.2
+pandas 1.3.4
 ~~~
 
-## Known issues
-
-CSV files upload was tested ONLY on the script main directory, so paste them there to guarantee that it will run.
-
-## ToDOs:
-
-- [ ] Define contribution guide
-- [ ] Feature to search entries by date, project id, task id...
-- [ ] Find a more secure way to handle credentials
-- [ ] Delete entries by their id
-- [ ] Make it POSIX compliant
-- [ ] Toggle http/https?
+2. Clone the repository and run the script inside of the repo directory.
+CSV files uploads were tested ONLY on the script main directory, so paste them there to guarantee that it will run.

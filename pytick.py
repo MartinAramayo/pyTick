@@ -8,20 +8,26 @@ Usage:
     pytick.py (-h | --help)
     pytick.py --version
 
-csv:
-    filename    .csv file with the headers: date, hours,notes, task_id
+new: 
+    task_id             The id of the tasks you want to load, you can find 
+                        the one you are searching for by calling pyTick 
+                        with --tasks.
+    hours               A float with the amount of hours that the task took 
+                        to complete.
+    -n --note=<string>  A note on the task.
+    -d --date=<string>  The date of the task in the format (YYYY-mm-dd)
+                        [default=today].
 
-Optional:
-    --note=<string>   Note of entry.
-    --date=<string>   Entry date.
+csv:
+    filename            CSV file with the headers: date, hours, notes, task_id.
 
 Options:
-    --tasks       Save task_id, task_name, project_name, client_name into 
-                  tasks.csv and prints it
-    --projects    Save project_id, project_name into projects.csv and prints it
-    -h --help     Show this screen.
-    --version     Show version.
-"""
+    -t --tasks         Save task_id, task_name, project_name, client_name into 
+                        tasks.csv and prints it.
+    -p --projects      Save project_id, project_name into projects.csv and 
+                        prints it.
+    -h --help           Show this screen.
+    --version           Show version.""" 
 from dotenv import load_dotenv
 from datetime import datetime
 from docopt import docopt
@@ -32,7 +38,7 @@ import json
 import os
 
 
-# Renaming columns for joins
+# renaming columns for joins
 rename_projects = {
     'id': 'project_id',
     'name': 'project_name',
@@ -232,5 +238,4 @@ def tickspot_projects(api_url, get_heads):
 
 
 if __name__ == '__main__':
-    # arguments
     main()
