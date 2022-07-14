@@ -30,7 +30,7 @@ Options:
     --version     Show version.
 ~~~
 
-To use it you need to load your credentials into a **creds.env** inside a parent directory:
+To use it you need to load your credentials into a **.env** inside the script directory:
 
 ~~~ python
 userAgent="app_name (sample@email.com)"

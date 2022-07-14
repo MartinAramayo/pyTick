@@ -101,25 +101,24 @@ def main():
 def env_load():
 
     # load credentials
-    load_dotenv(dotenv_path=Path('../creds.env'))
+    load_dotenv(dotenv_path=Path('.env'))
 
-    creds = ((os.getenv('subscriptionID') is not None)
-             and (os.getenv('accessword') is not None)
-             and (os.getenv('userAgent') is not None)
-             and (os.getenv('userID') is not None)
-             and (os.getenv('token') is not None)
-             and (os.getenv('email') is not None))
+    creds = (
+        (os.getenv('token') is not None)
+        and (os.getenv('subscriptionID') is not None)
+        and (os.getenv('userAgent') is not None)
+    )
 
     if not creds:
-        print("Something is missing!")
-        print()
-        print("Your ../creds.env does not have some of the fields in here:")
-        print("- subscriptionID")
-        print("- accessword")
-        print("- userAgent")
-        print("- userID")
-        print("- token")
-        print("- email")
+        aux_str = """
+        Something is missing!
+        
+        Your .env does not have some of the fields in here:
+            - token
+            - subscriptionID
+            - userAgent
+        """
+        print(aux_str)
         return
 
     # url
@@ -161,15 +160,15 @@ def csv(api_url, put_heads, filename):
 
     data_entries = pd.read_csv(filename).to_dict(orient='records')
 
-    aux = []
+    aux_list = []
     for index, data in enumerate(data_entries):
         response_post = requests.post(f"{api_url}entries.json",
                                       headers=put_heads,
                                       json=data)
-        aux.append(response_post.json()['id'])
+        aux_list.append(response_post.json()['id'])
 
     for index, data in enumerate(data_entries):
-        data['entry_id'] = aux[index]
+        data['entry_id'] = aux_list[index]
 
     string_date = datetime.today().strftime('%Y-%m-%d_%H%M%S')
     if not os.path.isdir('logs'):
