@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """pyTick, A WIP CLI Tickspot API wrapper.
 
 Usage:
@@ -76,7 +77,7 @@ rename_clients = {
 
 def main():
 
-    args = docopt(__doc__, version="pyTick 0.1")
+    args = docopt(__doc__, version="pyTick 0.1", options_first=True)
 
     # required to make requests, they contain credentials
     api_url, get_heads, put_heads = env_load()
