@@ -43,10 +43,7 @@ To use it you need to load your credentials into a **.env** inside the script di
 
 ~~~ python
 userAgent="app_name (sample@email.com)"
-accessword="your_password"
-email="your_email@host.com"
 token="yourTickspotToken"
-userID=999999 
 subscriptionID=999999
 ~~~
 
