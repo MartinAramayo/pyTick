@@ -7,36 +7,37 @@ pyTick allows you to load entries to the Tickspot platform
 ## Usage
 
 ~~~ bash
-pyTick, A WIP CLI Tickspot API wrapper.
+"""pyTick, A WIP CLI Tickspot API wrapper.
+
+It is able to upload entries to Tickspot given the 
+task_id and the amount of hours.
 
 Usage:
-    pytick.py --tasks 
-    pytick.py --projects
-    pytick.py new <task_id> <hours> [--note=<note>] [--date=<date>]
-    pytick.py csv <filename>
-    pytick.py (-h | --help)
+    pytick.py [options] --tasks
+    pytick.py [options] --projects
+    pytick.py [options] new (<task_id>) (<hours>) [entrie_args]
+    pytick.py [options] csv [-] [<filename> | <filenames>...]
     pytick.py --version
 
-new: 
-    task_id             The id of the tasks you want to load, you can find 
-                        the one you are searching for by calling pyTick 
-                        with --tasks.
-    hours               A float with the amount of hours that the task took 
-                        to complete.
+entrie_args:
     -n --note=<string>  A note on the task.
-    -d --date=<string>  The date of the task in the format (YYYY-mm-dd)
-                        [default=today].
+    -d --date=<string>  The date of the task in the format 
+                        (YYYY-mm-dd) [default=today].
+new: 
+    task_id  The id of the tasks you want to load, you can 
+             find the one you are searching for by calling 
+             pyTick with the --tasks.
+    hours    A float with the amount of hours that the task 
+             took to complete.
 
 csv:
-    filename            CSV file with the headers: date, hours, notes, task_id.
+    filename  CSV file with the headers: 
+              date, hours, notes, task_id.
 
-Options:
-    -t --tasks         Save task_id, task_name, project_name, client_name into 
-                        tasks.csv and prints it.
-    -p --projects      Save project_id, project_name into projects.csv and 
-                        prints it.
-    -h --help           Show this screen.
-    --version           Show version.
+options:
+    -h --help     Show this screen.
+    -v --verbose  Show also the cli arguments.
+    --version     Show version."""
 ~~~
 
 To use it you need to load your credentials into a **.env** inside the script directory:

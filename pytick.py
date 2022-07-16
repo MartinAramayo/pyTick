@@ -1,34 +1,35 @@
 #!/usr/bin/env python
 """pyTick, A WIP CLI Tickspot API wrapper.
 
+It is able to upload entries to Tickspot given the 
+task_id and the amount of hours.
+
 Usage:
-    pytick.py --tasks 
-    pytick.py --projects
-    pytick.py new <task_id> <hours> [--note=<note>] [--date=<date>]
-    pytick.py csv <filename>
-    pytick.py (-h | --help)
+    pytick.py [options] --tasks
+    pytick.py [options] --projects
+    pytick.py [options] new (<task_id>) (<hours>) [entrie_args]
+    pytick.py [options] csv [-] [<filename> | <filenames>...]
     pytick.py --version
 
-new: 
-    task_id             The id of the tasks you want to load, you can find 
-                        the one you are searching for by calling pyTick 
-                        with --tasks.
-    hours               A float with the amount of hours that the task took 
-                        to complete.
+entrie_args:
     -n --note=<string>  A note on the task.
-    -d --date=<string>  The date of the task in the format (YYYY-mm-dd)
-                        [default=today].
+    -d --date=<string>  The date of the task in the format 
+                        (YYYY-mm-dd) [default=today].
+new: 
+    task_id  The id of the tasks you want to load, you can 
+             find the one you are searching for by calling 
+             pyTick with the --tasks.
+    hours    A float with the amount of hours that the task 
+             took to complete.
 
 csv:
-    filename            CSV file with the headers: date, hours, notes, task_id.
+    filename  CSV file with the headers: 
+              date, hours, notes, task_id.
 
-Options:
-    -t --tasks         Save task_id, task_name, project_name, client_name into 
-                        tasks.csv and prints it.
-    -p --projects      Save project_id, project_name into projects.csv and 
-                        prints it.
-    -h --help           Show this screen.
-    --version           Show version.""" 
+options:
+    -h --help     Show this screen.
+    -v --verbose  Show also the cli arguments.
+    --version     Show version."""
 from dotenv import load_dotenv
 from datetime import datetime
 from docopt import docopt
@@ -36,8 +37,8 @@ from pathlib import Path
 import pandas as pd
 import requests
 import json
+import sys
 import os
-
 
 # renaming columns for joins
 rename_projects = {
@@ -79,6 +80,9 @@ def main():
 
     args = docopt(__doc__, version="pyTick 0.1", options_first=True)
 
+    if args['--verbose']:
+        print(args)
+
     # required to make requests, they contain credentials
     api_url, get_heads, put_heads = env_load()
 
@@ -88,20 +92,26 @@ def main():
         return
 
     if args['csv']:
-        csv(api_url, put_heads, args["<filename>"])
-        return
+        if args['-']:
+            print(sys.stdin)
+            csv(api_url, put_heads, sys.stdin)
+        
+        if args['<filenames>']:
+            for input_stream in args['<filenames>']:
+                csv(api_url, put_heads, input_stream)
+        
+        if args['<filename>']:
+            csv(api_url, put_heads, args['<filename>'])
 
     if args['--tasks']:
         tickspot_data = calculate_tickspot(api_url, get_heads)
         tasks_df = tickspot_tasks(tickspot_data)
-        print(tasks_df.to_string(index=False))
-        tasks_df.to_csv('tasks.csv', index=False)
+        tasks_df.to_csv(path_or_buf=sys.stdout, index=False)
         return
 
     if args['--projects']:
         projects_df = tickspot_projects(api_url, get_heads)
-        print(projects_df.to_string(index=False))
-        projects_df.to_csv('projects.csv', index=False)
+        projects_df.to_csv(path_or_buf=sys.stdout, index=False)
         return
 
 
@@ -110,11 +120,9 @@ def env_load():
     # load credentials
     load_dotenv(dotenv_path=Path('.env'))
 
-    creds = (
-        (os.getenv('token') is not None)
-        and (os.getenv('subscriptionID') is not None)
-        and (os.getenv('userAgent') is not None)
-    )
+    creds = ((os.getenv('token') is not None)
+             and (os.getenv('subscriptionID') is not None)
+             and (os.getenv('userAgent') is not None))
 
     if not creds:
         aux_str = """
@@ -165,7 +173,11 @@ def new(api_url, put_heads, date, hours, notes, task_id):
 
 def csv(api_url, put_heads, filename):
 
-    data_entries = pd.read_csv(filename).to_dict(orient='records')
+    headers = ["date", "hours", "notes", "task_id"]
+    data_df = pd.read_csv(filepath_or_buffer=filename, 
+                               usecols=headers,
+                               header=0)
+    data_entries = data_df.to_dict(orient='records')
 
     aux_list = []
     for index, data in enumerate(data_entries):
@@ -189,7 +201,8 @@ def calculate_tickspot(api_url, get_heads):
     response_projects = requests.get(f"{api_url}projects.json",
                                      headers=get_heads)
     response_tasks = requests.get(f"{api_url}tasks.json", headers=get_heads)
-    response_clients = requests.get(f"{api_url}clients.json", headers=get_heads)
+    response_clients = requests.get(f"{api_url}clients.json",
+                                    headers=get_heads)
 
     # read data
     projects = response_projects.json()
@@ -206,8 +219,7 @@ def calculate_tickspot(api_url, get_heads):
                                       right_on='project_id').merge(
                                           clients_df,
                                           left_on='client_id',
-                                          right_on='client_id'
-                                      )
+                                          right_on='client_id')
     return tickspot_data
 
 
