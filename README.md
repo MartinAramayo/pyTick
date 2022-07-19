@@ -13,30 +13,16 @@ It is able to upload entries to Tickspot given the
 task_id and the amount of hours.
 
 Usage:
-    pytick.py [options] --tasks
-    pytick.py [options] --projects
-    pytick.py [options] new (<task_id>) (<hours>) [entrie_args]
-    pytick.py [options] csv [-] [<filename> | <filenames>...]
-    pytick.py --version
+    pyTick.py [--verbose] [--version] [--help] <command> [--] [<args>...]
 
-entrie_args:
-    -n --note=<string>  A note on the task.
-    -d --date=<string>  The date of the task in the format 
-                        (YYYY-mm-dd) [default=today].
-new: 
-    task_id  The id of the tasks you want to load, you can 
-             find the one you are searching for by calling 
-             pyTick with the --tasks.
-    hours    A float with the amount of hours that the task 
-             took to complete.
-
-csv:
-    filename  CSV file with the headers: 
-              date, hours, notes, task_id.
+With command being:
+    csv          Uploads hours from a csv file or stdin
+    entries      Get all entries in a date range
+    new          Create new entries from a file or from arguments
 
 options:
     -h --help     Show this screen.
-    -v --verbose  Show also the cli arguments.
+    -v --verbose  Show arguments.
     --version     Show version."""
 ~~~
 

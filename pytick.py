@@ -1,35 +1,4 @@
 #!/usr/bin/env python
-"""pyTick, A WIP CLI Tickspot API wrapper.
-
-It is able to upload entries to Tickspot given the 
-task_id and the amount of hours.
-
-Usage:
-    pytick.py [options] --tasks
-    pytick.py [options] --projects
-    pytick.py [options] new (<task_id>) (<hours>) [entrie_args]
-    pytick.py [options] csv [-] [<filename> | <filenames>...]
-    pytick.py --version
-
-entrie_args:
-    -n --note=<string>  A note on the task.
-    -d --date=<string>  The date of the task in the format 
-                        (YYYY-mm-dd) [default=today].
-new: 
-    task_id  The id of the tasks you want to load, you can 
-             find the one you are searching for by calling 
-             pyTick with the --tasks.
-    hours    A float with the amount of hours that the task 
-             took to complete.
-
-csv:
-    filename  CSV file with the headers: 
-              date, hours, notes, task_id.
-
-options:
-    -h --help     Show this screen.
-    -v --verbose  Show also the cli arguments.
-    --version     Show version."""
 from dotenv import load_dotenv
 from datetime import datetime
 from docopt import docopt
@@ -74,45 +43,9 @@ rename_clients = {
     'url': 'client_url',
     'updated_at': 'client_updated_at'
 }
-
-
-def main():
-
-    args = docopt(__doc__, version="pyTick 0.1", options_first=True)
-
-    if args['--verbose']:
-        print(args)
-
-    # required to make requests, they contain credentials
-    api_url, get_heads, put_heads = env_load()
-
-    if args['new']:
-        new(api_url, put_heads, args["--date"], args["<hours>"],
-            args["--note"], args["<task_id>"])
-        return
-
-    if args['csv']:
-        if args['-']:
-            print(sys.stdin)
-            csv(api_url, put_heads, sys.stdin)
-        
-        if args['<filenames>']:
-            for input_stream in args['<filenames>']:
-                csv(api_url, put_heads, input_stream)
-        
-        if args['<filename>']:
-            csv(api_url, put_heads, args['<filename>'])
-
-    if args['--tasks']:
-        tickspot_data = calculate_tickspot(api_url, get_heads)
-        tasks_df = tickspot_tasks(tickspot_data)
-        tasks_df.to_csv(path_or_buf=sys.stdout, index=False)
-        return
-
-    if args['--projects']:
-        projects_df = tickspot_projects(api_url, get_heads)
-        projects_df.to_csv(path_or_buf=sys.stdout, index=False)
-        return
+rename_entries = {   
+    "id": "entry_id",
+}
 
 
 def env_load():
@@ -194,6 +127,46 @@ def csv(api_url, put_heads, filename):
         os.makedir('logs')
     pd.DataFrame(data_entries).to_csv(f"logs/{string_date}.csv", index=False)
 
+def get_entries(api_url, put_heads, 
+            start_date=None, end_date=None, project_id=None, 
+            task_id=None, user_id=None, billed=None, billable=None):
+    
+    entries_str = {
+        "start_date": (f"start_date='{start_date}'" if start_date!=None else ""), 
+        "end_date":   (f"end_date='{end_date}'"     if end_date!=None   else ""), 
+        "project_id": (f"project_id={project_id}"   if project_id!=None else ""), 
+        "task_id":    (f"task_id={task_id}"         if task_id!=None    else ""), 
+        "user_id":    (f"user_id={user_id}"         if user_id!=None    else ""), 
+        "billed":     (f"billed={billed}"           if billed!=None     else ""), 
+        "billable":   (f"billable={billable}"       if billable!=None   else ""),
+    }
+    entries_str = {key: value for key, value in entries_str.items() if value!=''}
+    
+    if len(entries_str.values()):
+        params = '?' + '&'.join(entries_str.values())
+    
+    url = f"{api_url}entries.json" + params
+
+    response_entries = requests.get(url, headers=put_heads)
+    entries = response_entries.json()
+    
+    entries_df = pd.DataFrame.from_dict(entries).rename(
+        columns=rename_entries
+    )
+    
+    columns = [
+        "entry_id",
+        "date",
+        "hours",
+        "notes",
+        "locked",
+        "created_at",
+        "updated_at",
+        "task_id",
+        "user_id",
+    ]
+    
+    return entries_df[columns]
 
 def calculate_tickspot(api_url, get_heads):
 
@@ -248,7 +221,3 @@ def tickspot_projects(api_url, get_heads):
     ]].drop_duplicates()
 
     return tickspot_projects
-
-
-if __name__ == '__main__':
-    main()
