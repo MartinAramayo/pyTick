@@ -5,7 +5,7 @@ It is able to upload entries to Tickspot given the
 task_id and the amount of hours.
 
 Usage:
-    pyTick.py [--verbose] [--version] [--help] <command> [--] [<args>...]
+    pyTick_cli.py [--verbose] [--version] [--help] <command> [--] [<args>...]
 
 With command being:
     csv          Uploads hours from a csv file or stdin
@@ -31,8 +31,8 @@ if __name__ == '__main__':
     argv = [args['<command>']] + args['<args>']
     if args['<command>'] in 'csv new entries'.split():
         # For the rest we'll just keep DRY:
-        exit(call(['python', 'pytick_%s.py' % args['<command>']] + argv))
+        exit(call(['python', 'pyTick_%s.py' % args['<command>']] + argv))
     elif args['<command>'] in ['help', None]:
-        exit(call(['python', 'pytick.py', '--help']))
+        exit(call(['python', 'pyTick_cli.py', '--help']))
     else:
         exit("%r is not a pytick.py command. See 'pytick help'." % args['<command>'])

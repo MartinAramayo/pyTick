@@ -5,7 +5,7 @@ It is able to upload entries to Tickspot given the
 task_id and the amount of hours.
 
 Usage:
-    pyTick.py csv [options] [-] [<filename> | <filenames>...] 
+    pyTick_cli.py csv [options] [-] [<filename> | <filenames>...] 
 
 csv:
     filename  CSV file with the headers: 

@@ -13,7 +13,7 @@ It is able to upload entries to Tickspot given the
 task_id and the amount of hours.
 
 Usage:
-    pyTick.py [--verbose] [--version] [--help] <command> [--] [<args>...]
+    pyTick_cli.py [--verbose] [--version] [--help] <command> [--] [<args>...]
 
 With command being:
     csv          Uploads hours from a csv file or stdin

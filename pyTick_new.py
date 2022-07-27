@@ -5,7 +5,7 @@ It is able to upload entries to Tickspot given the
 task_id and the amount of hours.
 
 Usage: 
-    pyTick.py new <task_id> <hours> [options]
+    pyTick_cli.py new <task_id> <hours> [options]
 
 options:
     -n <date>, --note=<date>  A note on the task.

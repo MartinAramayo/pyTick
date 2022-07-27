@@ -5,7 +5,7 @@ It is able to upload entries to Tickspot given the
 task_id and the amount of hours.
 
 Usage:
-    pyTick.py entries (<start_date>) (<end_date>) [options] 
+    pyTick_cli.py entries (<start_date>) (<end_date>) [options] 
 
 options:
     -p <project_id>, --project_id=<project_id>  Id of the project to filter by
