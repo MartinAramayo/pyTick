@@ -7,12 +7,11 @@ task_id and the amount of hours.
 Dates in Tickspot use the format YYYY-mm-dd.
 
 Usage: 
-    pyTick_cli.py new <task_id> <hours> [options]
+    pyTick_cli.py info [options]
 
 options:
-    -n <date>, --note=<date>  A note on the task.
-    -d <note>, --date=<note>  The date of the task in the format 
-                              (YYYY-mm-dd) [default=today].                        
+    --tasks                   Show tasks names and ids.
+    --projects                Show projects names and ids.
     -h --help                 Show this screen.
     -v --verbose              Show also the cli arguments.
     --version                 Show version."""
@@ -31,8 +30,15 @@ def main():
     # required to make requests, they contain credentials
     api_url, get_heads, put_heads = env_load()
 
-    new(api_url, put_heads, args["--date"], args["<hours>"],
-        args["--note"], args["<task_id>"])
+    tickspot_data = calculate_tickspot(api_url, get_heads)
+    
+    if args['--tasks']:
+        tasks_df = tickspot_tasks(tickspot_data)
+        tasks_df.to_csv(path_or_buf=sys.stdout, index=False)
+    elif args['--projects']:
+        projects_df = tickspot_projects(api_url, get_heads)
+        projects_df.to_csv(path_or_buf=sys.stdout, index=False)
+    
     return
 
 

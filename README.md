@@ -7,10 +7,12 @@ pyTick allows you to load entries to the Tickspot platform
 ## Usage
 
 ~~~ bash
-"""pyTick, A WIP CLI Tickspot API wrapper.
+"""pyTick, a CLI Tickspot API wrapper.
 
 It is able to upload entries to Tickspot given the 
 task_id and the amount of hours.
+
+Dates in tickspot use the format YYYY-mm-dd.
 
 Usage:
     pyTick_cli.py [--verbose] [--version] [--help] <command> [--] [<args>...]
@@ -19,6 +21,7 @@ With command being:
     csv          Uploads hours from a csv file or stdin
     entries      Get all entries in a date range
     new          Create new entries from a file or from arguments
+    info         Return all available tasks or projects.
 
 options:
     -h --help     Show this screen.

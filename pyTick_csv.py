@@ -1,8 +1,10 @@
 #!/usr/bin/env python
-"""pyTick, A WIP CLI Tickspot API wrapper.
+"""pyTick, a CLI Tickspot API wrapper.
 
 It is able to upload entries to Tickspot given the 
 task_id and the amount of hours.
+
+Dates in Tickspot use the format YYYY-mm-dd.
 
 Usage:
     pyTick_cli.py csv [options] [-] [<filename> | <filenames>...] 
@@ -41,6 +43,7 @@ def main():
     if args['<filename>']:
         csv(api_url, put_heads, args['<filename>'])
     return
+
 
 if __name__ == '__main__':
     main()

@@ -1,22 +1,26 @@
 #!/usr/bin/env python
-"""pyTick, A WIP CLI Tickspot API wrapper.
+"""pyTick, a CLI Tickspot API wrapper.
 
 It is able to upload entries to Tickspot given the 
-task_id and the amount of hours.
+task_id and the amount of hours. 
+
+Dates in Tickspot use the format YYYY-mm-dd.
 
 Usage:
     pyTick_cli.py entries (<start_date>) (<end_date>) [options] 
 
+The date format 
+
 options:
-    -p <project_id>, --project_id=<project_id>  Id of the project to filter by
-    -t <task_id>, --task_id=<task_id>           Id of the task to filter by
-    -u <user_id>, --user_id=<user_id>           Id of the user to filter by
-    -b <billed>, --billed=<billed>              Filter entries by they billed 
-                                                status (true or false)
-    -B <billable>, --billable=<billable>        Filter entries by they billable 
-                                                status (true or false)
-    -r <target>, --report_daily=<target>        Produce a report of hours per 
-                                                date per user, with remainder of 
+    -p <project_id>, --project_id=<project_id>  Id of the project to filter by.
+    -t <task_id>, --task_id=<task_id>           Id of the task to filter by.
+    -u <user_id>, --user_id=<user_id>           Id of the user to filter by.
+    -b <billed>, --billed=<billed>              Filter entries by they billed
+                                                status (true or false).
+    -B <billable>, --billable=<billable>        Filter entries by they billable
+                                                status (true or false).
+    -r <target>, --report_daily=<target>        Produce a report of hours per
+                                                date per user, with remainder of
                                                 hours according to target_hours
                                                 [default: 8].
     -h --help                                   Show this screen.
@@ -25,6 +29,7 @@ options:
 from dotenv import load_dotenv
 from docopt import docopt
 from pytick import *
+
 
 def main():
 
