@@ -1,6 +1,6 @@
 <img src="pyTickLogo.png" align="right" />
 
-# pyTick: A WIP CLI Tickspot API wrapper
+# pyTick: a CLI Tickspot API wrapper
 
 pyTick allows you to load entries to the Tickspot platform
 
