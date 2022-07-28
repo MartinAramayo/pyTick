@@ -10,8 +10,8 @@ Usage:
     pyTick_cli.py new <task_id> <hours> [options]
 
 options:
-    -n <date>, --note=<date>  A note on the task.
-    -d <note>, --date=<note>  The date of the task in the format 
+    -n <note>, --note=<note>  A note on the task.
+    -d <date>, --date=<date>  The date of the task in the format 
                               (YYYY-mm-dd) [default=today].                        
     -h --help                 Show this screen.
     -v --verbose              Show also the cli arguments.
