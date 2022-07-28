@@ -124,8 +124,9 @@ def csv(api_url, put_heads, filename):
 
     string_date = datetime.today().strftime('%Y-%m-%d_%H%M%S')
     if not os.path.isdir('logs'):
-        os.makedir('logs')
+        os.mkdir('logs')
     pd.DataFrame(data_entries).to_csv(f"logs/{string_date}.csv", index=False)
+
 
 def get_entries(api_url, put_heads, 
             start_date=None, end_date=None, project_id=None, 
@@ -167,6 +168,7 @@ def get_entries(api_url, put_heads,
     ]
     
     return entries_df[columns]
+
 
 def calculate_tickspot(api_url, get_heads):
 
