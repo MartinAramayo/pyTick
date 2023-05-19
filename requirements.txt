@@ -1,0 +1,4 @@
+python-dotenv
+docopt
+pandas
+requests
