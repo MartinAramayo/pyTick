@@ -68,3 +68,17 @@ pandas 1.3.4
 
 2. Clone the repository and run the script inside of the repo directory.
 CSV files uploads were tested ONLY on the script main directory, so paste them there to guarantee that it will run.
+
+### Docker
+
+To run in Docker, build with e.g.:
+
+```
+docker build -t pytick .
+```
+
+and run with e.g.:
+
+```
+docker run -it --rm -v /path/to/dir/.env:/usr/src/app/.env pytick info
+```
